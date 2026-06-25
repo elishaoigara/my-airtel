@@ -8,6 +8,7 @@
       "android": {
         "buildType": "apk",
         "node": "22.13.0",
+        "image": "ubuntu-22.04-jdk-17-ndk-r27",
         "env": {
           "YARN_IGNORE_ENGINES": "1"
         }
@@ -16,7 +17,8 @@
     "production": {
       "android": {
         "buildType": "app-bundle",
-        "node": "22.13.0"
+        "node": "22.13.0",
+        "image": "ubuntu-22.04-jdk-17-ndk-r27"
       }
     }
   },
