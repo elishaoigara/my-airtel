@@ -6,23 +6,21 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "experiments": {
+      "newArchEnabled": false
+    },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "package": "com.lambert999.airtelclone",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/android-icon-foreground.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ED1C24"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "e00f258d-9889-4e9e-b9bb-fabc35877b09"
-      }
     }
   }
 }
