@@ -9,6 +9,7 @@
         "buildType": "apk",
         "node": "22.13.0",
         "image": "ubuntu-22.04-jdk-17-ndk-r26b",
+        "prebuildCommand": "echo skip",
         "env": {
           "YARN_IGNORE_ENGINES": "1"
         }
@@ -18,7 +19,8 @@
       "android": {
         "buildType": "app-bundle",
         "node": "22.13.0",
-        "image": "ubuntu-22.04-jdk-17-ndk-r26b"
+        "image": "ubuntu-22.04-jdk-17-ndk-r26b",
+        "prebuildCommand": "echo skip"
       }
     }
   },
