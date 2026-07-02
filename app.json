@@ -24,8 +24,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "e00f258d-9889-4e9e-b9bb-fabc35877b09"
+        "projectId": "769a227f-86d0-4d95-b648-6f053cebc18f"
       }
-    }
+    },
+    "owner": "lambert999"
   }
 }
