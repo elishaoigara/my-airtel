@@ -15,7 +15,8 @@
     "android": {
       "package": "com.lambert999.airtelclone",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png",
         "backgroundColor": "#ED1C24"
       }
     },
