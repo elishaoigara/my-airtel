@@ -28,6 +28,9 @@
         "projectId": "769a227f-86d0-4d95-b648-6f053cebc18f"
       }
     },
-    "owner": "lambert999"
+    "owner": "lambert999",
+    "plugins": [
+      "expo-status-bar"
+    ]
   }
 }
