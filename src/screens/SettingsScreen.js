@@ -11,6 +11,7 @@ import {
   loadTransactions, saveTransactions, deleteTransaction, resetTransactions,
 } from '../data/transactionStore';
 import { loadProfile, saveProfile, resetProfile, defaultProfile } from '../data/profileStore';
+import { CURRENCIES, defaultCurrency, loadCurrency, saveCurrency } from '../data/currencyStore';
 
 const emptyForm = {
   type: '', direction: 'sent', amount: '', currency: 'KES',
@@ -25,6 +26,8 @@ export default function SettingsScreen({ navigation }) {
   const [profileModalVisible, setProfileModalVisible] = useState(false);
   const [profileForm, setProfileForm] = useState(defaultProfile);
 
+  const [currency, setCurrency] = useState(defaultCurrency);
+
   const [transactions, setTransactions] = useState([]);
   const [txModalVisible, setTxModalVisible] = useState(false);
   const [txListVisible, setTxListVisible] = useState(false);
@@ -35,8 +38,14 @@ export default function SettingsScreen({ navigation }) {
     useCallback(() => {
       loadProfile().then((p) => { setProfile(p); setProfileForm(p); });
       loadTransactions().then(setTransactions);
+      loadCurrency().then(setCurrency);
     }, [])
   );
+
+  async function handleSelectCurrency(item) {
+    setCurrency(item);
+    await saveCurrency(item.code);
+  }
 
   async function handleSaveProfile() {
     await saveProfile(profileForm);
@@ -133,6 +142,23 @@ export default function SettingsScreen({ navigation }) {
             <Feather name="edit-2" size={14} color={colors.airtelRed} />
             <Text style={styles.editBtnText}>Edit Profile Details</Text>
           </TouchableOpacity>
+        </View>
+
+        {/* Currency section */}
+        <Text style={styles.sectionTitle}>Currency</Text>
+        <View style={styles.card}>
+          <Text style={styles.cardSub}>Applies to Airtime Balance and Airtel Money on Home. Tap to switch — takes effect immediately.</Text>
+          <View style={styles.chipRow}>
+            {CURRENCIES.map((c) => (
+              <TouchableOpacity
+                key={c.code}
+                style={[styles.chip, currency.code === c.code && styles.chipActive]}
+                onPress={() => handleSelectCurrency(c)}
+              >
+                <Text style={[styles.chipText, currency.code === c.code && styles.chipTextActive]}>{c.code}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
 
         {/* Transactions section */}

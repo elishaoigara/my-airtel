@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { colors, fontSizes } from '../theme/theme';
+import { LoadingProvider, useLoading } from '../context/LoadingContext';
 
 import HomeScreen from '../screens/HomeScreen';
 import AirtelMoneyScreen from '../screens/AirtelMoneyScreen';
@@ -42,40 +43,55 @@ function MoreStack() {
   );
 }
 
+function Tabs() {
+  const { triggerLoading } = useLoading();
+
+  return (
+    <Tab.Navigator
+      screenListeners={{
+        // Fires on every tab press (including re-tapping the active tab),
+        // giving each switch a brief "fetching" feel instead of an instant swap.
+        tabPress: () => triggerLoading(),
+      }}
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarActiveTintColor: colors.tabActive,
+        tabBarInactiveTintColor: colors.tabInactive,
+        tabBarLabelStyle: { fontSize: fontSizes.xs, marginBottom: 4 },
+        tabBarStyle: { height: 60, paddingTop: 6, paddingBottom: 6 },
+        tabBarIcon: ({ color, size }) => {
+          switch (route.name) {
+            case 'Home':
+              return <Ionicons name="home" size={22} color={color} />;
+            case 'Airtel Money':
+              return <MaterialCommunityIcons name="wallet" size={22} color={color} />;
+            case 'Home-WiFi':
+              return <Ionicons name="wifi" size={22} color={color} />;
+            case 'Help':
+              return <Ionicons name="help-circle" size={22} color={color} />;
+            case 'More':
+              return <FontAwesome5 name="bars" size={18} color={color} />;
+            default:
+              return null;
+          }
+        },
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Airtel Money" component={AirtelMoneyStack} />
+      <Tab.Screen name="Home-WiFi" component={HomeWifiScreen} />
+      <Tab.Screen name="Help" component={HelpScreen} />
+      <Tab.Screen name="More" component={MoreStack} />
+    </Tab.Navigator>
+  );
+}
+
 export default function RootNavigator() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          headerShown: false,
-          tabBarActiveTintColor: colors.tabActive,
-          tabBarInactiveTintColor: colors.tabInactive,
-          tabBarLabelStyle: { fontSize: fontSizes.xs, marginBottom: 4 },
-          tabBarStyle: { height: 60, paddingTop: 6, paddingBottom: 6 },
-          tabBarIcon: ({ color, size }) => {
-            switch (route.name) {
-              case 'Home':
-                return <Ionicons name="home" size={22} color={color} />;
-              case 'Airtel Money':
-                return <MaterialCommunityIcons name="wallet" size={22} color={color} />;
-              case 'Home-WiFi':
-                return <Ionicons name="wifi" size={22} color={color} />;
-              case 'Help':
-                return <Ionicons name="help-circle" size={22} color={color} />;
-              case 'More':
-                return <FontAwesome5 name="bars" size={18} color={color} />;
-              default:
-                return null;
-            }
-          },
-        })}
-      >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Airtel Money" component={AirtelMoneyStack} />
-        <Tab.Screen name="Home-WiFi" component={HomeWifiScreen} />
-        <Tab.Screen name="Help" component={HelpScreen} />
-        <Tab.Screen name="More" component={MoreStack} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <LoadingProvider duration={450}>
+      <NavigationContainer>
+        <Tabs />
+      </NavigationContainer>
+    </LoadingProvider>
   );
 }

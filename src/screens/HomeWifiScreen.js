@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons, Feather, Ionicons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 import AppHeader from '../components/AppHeader';
 import { colors, fontSizes, spacing, radius } from '../theme/theme';
+import { defaultCurrency, loadCurrency, convertFromKes } from '../data/currencyStore';
 
 const quickActions = [
   { label: 'Buy Bundles', icon: <MaterialCommunityIcons name="card-multiple-outline" size={24} color={colors.airtelRed} /> },
@@ -13,6 +15,14 @@ const quickActions = [
 ];
 
 export default function HomeWifiScreen() {
+  const [currency, setCurrency] = useState(defaultCurrency);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadCurrency().then(setCurrency);
+    }, [])
+  );
+
   return (
     <View style={styles.screen}>
       <AppHeader showLogo subtitle="Home Wi-Fi" />
@@ -42,10 +52,10 @@ export default function HomeWifiScreen() {
           <Text style={styles.promoSub}>FOR LIMITLESS STREAMING</Text>
           <View style={styles.promoRow}>
             <View style={styles.promoTag}>
-              <Text style={styles.promoTagText}>15MBPS{'\n'}KES 1,999</Text>
+              <Text style={styles.promoTagText}>15MBPS{'\n'}{currency.code} {convertFromKes(1999, currency)}</Text>
             </View>
             <View style={styles.promoTag}>
-              <Text style={styles.promoTagText}>30MBPS{'\n'}KES 2,999</Text>
+              <Text style={styles.promoTagText}>30MBPS{'\n'}{currency.code} {convertFromKes(2999, currency)}</Text>
             </View>
           </View>
           <Text style={styles.promoFoot}>DIAL: 0733 100 500 FOR HOME DELIVERY</Text>

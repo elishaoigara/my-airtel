@@ -39,7 +39,10 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: colors.airtelRed,
     paddingHorizontal: spacing.lg,
-    paddingBottom: spacing.lg,
+    // Extra bottom padding creates a buffer zone of plain red that the
+    // Home screen's card is allowed to overlap into (negative marginTop),
+    // so the overlap never eats into the logo/icons row above it.
+    paddingBottom: spacing.xxl,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
