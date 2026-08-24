@@ -32,13 +32,17 @@ export function LoadingProvider({ children, duration = 450 }) {
     <LoadingContext.Provider value={{ triggerLoading }}>
       {children}
       {visible ? (
-        <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, styles.overlay, { opacity }]}>
+        <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, styles.overlay, { opacity, bottom: TAB_BAR_HEIGHT }]}>
           <ActivityIndicator size="large" color={colors.airtelRed} />
         </Animated.View>
       ) : null}
     </LoadingContext.Provider>
   );
 }
+
+// Must match tabBarStyle.height in RootNavigator.js — keeps the overlay from
+// ever covering the bottom tab bar (that was making the nav buttons look washed out).
+const TAB_BAR_HEIGHT = 60;
 
 const styles = StyleSheet.create({
   overlay: {
