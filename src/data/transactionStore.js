@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const STORAGE_KEY = '@airtel_clone_transactions';
+const STORAGE_KEY = '@airtel_clone_transactions_v2';
 
 // Default seed data — purely illustrative placeholder examples for the demo.
 // Edit these from Settings → Edit Transactions, not from the live transaction screens.
@@ -28,7 +28,7 @@ export const defaultTransactions = [
     date: '16 Jun 2026',
     time: '11:02 AM',
     status: 'SUCCESSFUL',
-    recipient: '0712 345 678',
+    recipient: '',
   },
   {
     id: 't3',
@@ -41,7 +41,7 @@ export const defaultTransactions = [
     date: '14 Jun 2026',
     time: '9:15 AM',
     status: 'SUCCESSFUL',
-    sender: 'JOHN KAMAU',
+    sender: '',
   },
   {
     id: 't4',

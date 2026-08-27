@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors, fontSizes, radius, spacing } from '../theme/theme';
-import { DEMO_PHONE, saveAuth } from '../data/authStore';
+import { saveAuth } from '../data/authStore';
 
 const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 
@@ -84,7 +84,6 @@ export default function LoginScreen({ onLoggedIn }) {
           <TouchableOpacity style={[styles.loginButton, canContinue && styles.loginButtonActive]} onPress={login}>
             <Text style={styles.loginText}>PROCEED TO LOGIN</Text>
           </TouchableOpacity>
-          <Text style={styles.demoHint}>School demo: use {DEMO_PHONE}</Text>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -113,5 +112,4 @@ const styles = StyleSheet.create({
   loginButton: { height: 58, backgroundColor: '#A8B2BC', borderRadius: radius.sm, alignItems: 'center', justifyContent: 'center', marginTop: 'auto' },
   loginButtonActive: { backgroundColor: colors.airtelRed },
   loginText: { color: colors.white, fontSize: 17, fontWeight: '700' },
-  demoHint: { color: colors.textMuted, textAlign: 'center', fontSize: 12, marginVertical: spacing.md },
 });

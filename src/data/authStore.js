@@ -1,9 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const AUTH_KEY = '@airtel_clone_auth';
+const AUTH_KEY = '@airtel_clone_auth_v2';
 
 export const DEMO_PIN = '1234';
-export const DEMO_PHONE = '781047471';
 
 export async function loadAuth() {
   try {
