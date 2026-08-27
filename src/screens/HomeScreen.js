@@ -7,6 +7,7 @@ import FadeInScreen from '../components/FadeInScreen';
 import { colors, fontSizes, spacing, radius } from '../theme/theme';
 import { loadProfile, defaultProfile } from '../data/profileStore';
 import { defaultCurrency, loadCurrency, convertFromKes } from '../data/currencyStore';
+import PinPrompt from '../components/PinPrompt';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -31,6 +32,8 @@ export default function HomeScreen() {
   const [profile, setProfile] = useState(defaultProfile);
   const [currency, setCurrency] = useState(defaultCurrency);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [pinVisible, setPinVisible] = useState(false);
+  const [moneyUnlocked, setMoneyUnlocked] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -103,11 +106,11 @@ export default function HomeScreen() {
               <MaterialCommunityIcons name="wallet" size={20} color={colors.airtelRed} />
               <View style={{ marginLeft: spacing.sm }}>
                 <Text style={styles.moneyLabel}>Airtel Money</Text>
-                <Text style={styles.moneyValue}>{currency.code} {convertFromKes(profile.airtelMoneyBalance, currency)}</Text>
+                <Text style={styles.moneyValue}>{currency.code} {moneyUnlocked ? convertFromKes(profile.airtelMoneyBalance, currency) : 'XXXXXX'}</Text>
               </View>
             </View>
-            <TouchableOpacity style={styles.eyeBtn}>
-              <Ionicons name="eye-outline" size={18} color={colors.white} />
+            <TouchableOpacity style={styles.eyeBtn} onPress={() => setPinVisible(true)} accessibilityLabel="Reveal Airtel Money balance">
+              <Ionicons name={moneyUnlocked ? 'eye-off-outline' : 'eye-outline'} size={18} color={colors.white} />
             </TouchableOpacity>
           </View>
 
@@ -157,6 +160,14 @@ export default function HomeScreen() {
 
           <View style={{ height: 30 }} />
         </ScrollView>
+        <PinPrompt
+          visible={pinVisible}
+          onClose={() => setPinVisible(false)}
+          onSuccess={() => {
+            setMoneyUnlocked(true);
+            setPinVisible(false);
+          }}
+        />
       </FadeInScreen>
     </View>
   );

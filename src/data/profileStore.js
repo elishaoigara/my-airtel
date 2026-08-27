@@ -3,9 +3,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const STORAGE_KEY = '@airtel_clone_profile';
 
 export const defaultProfile = {
-  name: 'ELISHA LAMBERT OIGARA',
-  shortName: 'ELISHA OIGARA',
-  phone: '736909468',
+  name: 'BRIAN NYAKUNDI',
+  shortName: 'BRIAN NYAKUNDI',
+  phone: '781047471',
   accountType: 'PREPAID',
   airtimeBalance: '0.01',
   voiceBalance: '67.30',
