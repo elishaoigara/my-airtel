@@ -4,16 +4,21 @@ import RootNavigator from './src/navigation/RootNavigator';
 import SplashScreenView from './src/screens/SplashScreenView';
 import LoginScreen from './src/screens/LoginScreen';
 import { loadAuth } from './src/data/authStore';
+import { loadRegion } from './src/data/regionStore';
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [auth, setAuth] = useState(null);
+  const [region, setRegion] = useState(null);
 
   useEffect(() => {
-    loadAuth().then(setAuth);
+    Promise.all([loadAuth(), loadRegion()]).then(([savedAuth, savedRegion]) => {
+      setAuth(savedAuth);
+      setRegion(savedRegion);
+    });
   }, []);
 
-  if (showSplash || auth === null) {
+  if (showSplash || auth === null || region === null) {
     return (
       <SafeAreaProvider>
         <SplashScreenView onFinish={() => setShowSplash(false)} />
@@ -24,7 +29,11 @@ export default function App() {
   if (!auth.isLoggedIn) {
     return (
       <SafeAreaProvider>
-        <LoginScreen onLoggedIn={(phone) => setAuth({ isLoggedIn: true, phone })} />
+        <LoginScreen
+          initialRegion={region}
+          onRegionChanged={setRegion}
+          onLoggedIn={({ phone }) => setAuth({ isLoggedIn: true, phone })}
+        />
       </SafeAreaProvider>
     );
   }

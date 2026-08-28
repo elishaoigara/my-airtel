@@ -12,6 +12,7 @@ import {
 } from '../data/transactionStore';
 import { loadProfile, saveProfile, resetProfile, defaultProfile } from '../data/profileStore';
 import { CURRENCIES, defaultCurrency, loadCurrency, saveCurrency } from '../data/currencyStore';
+import { REGIONS, defaultRegion, loadRegion, saveRegion } from '../data/regionStore';
 
 const emptyForm = {
   type: '', direction: 'sent', amount: '', currency: 'KES',
@@ -27,6 +28,7 @@ export default function SettingsScreen({ navigation }) {
   const [profileForm, setProfileForm] = useState(defaultProfile);
 
   const [currency, setCurrency] = useState(defaultCurrency);
+  const [region, setRegion] = useState(defaultRegion);
 
   const [transactions, setTransactions] = useState([]);
   const [txModalVisible, setTxModalVisible] = useState(false);
@@ -39,12 +41,18 @@ export default function SettingsScreen({ navigation }) {
       loadProfile().then((p) => { setProfile(p); setProfileForm(p); });
       loadTransactions().then(setTransactions);
       loadCurrency().then(setCurrency);
+      loadRegion().then(setRegion);
     }, [])
   );
 
   async function handleSelectCurrency(item) {
     setCurrency(item);
     await saveCurrency(item.code);
+  }
+
+  async function handleSelectRegion(item) {
+    const savedRegion = await saveRegion(item.code);
+    setRegion(savedRegion);
   }
 
   async function handleSaveProfile() {
@@ -144,6 +152,25 @@ export default function SettingsScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
+        {/* Region section */}
+        <Text style={styles.sectionTitle}>Airtel Region</Text>
+        <View style={styles.card}>
+          <Text style={styles.cardSub}>Choose the country shown on the login screen. This setting is saved for the next login.</Text>
+          <View style={styles.chipRow}>
+            {Object.values(REGIONS).map((item) => (
+              <TouchableOpacity
+                key={item.code}
+                style={[styles.chip, region.code === item.code && styles.chipActive]}
+                onPress={() => handleSelectRegion(item)}
+                accessibilityRole="button"
+                accessibilityLabel={`Select ${item.label}`}
+              >
+                <Text style={[styles.chipText, region.code === item.code && styles.chipTextActive]}>{item.label}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
         {/* Currency section */}
         <Text style={styles.sectionTitle}>Currency</Text>
         <View style={styles.card}>
@@ -226,7 +253,7 @@ export default function SettingsScreen({ navigation }) {
                 <Text style={styles.saveBtnText}>Save Changes</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.deleteBtn} onPress={handleResetProfile}>
-                <Text style={styles.deleteBtnText}>Reset to Default Profile</Text>
+                <Text style={styles.deleteBtnText}>Clear Profile Details</Text>
               </TouchableOpacity>
               <View style={{ height: 20 }} />
             </ScrollView>
